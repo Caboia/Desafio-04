@@ -24,17 +24,18 @@
   </header>
 
 </body>
-<section class="quem">
+<form class="quem" action="/contatos" method="POST">
   <h1>Entre em contato</h1>
   <span>Você pode entrar em contato conosco inserindo seus dados:</span>
   <hr size="1">
   <span>Seu email:</span><br>
-  <input type="text"><br>
+  <input type="text" name="email"><br>
   <span>Assunto:</span><br>
-  <input type="text"><br>
+  <input type="text" name="assunto"><br>
   <span>Descrição:</span><br>
-  <textarea name="Descrição" id="descrição" cols="19" rows="2"></textarea>
+  <textarea name="descricao" id="descrição" cols="19" rows="2"></textarea>
   <h2>Todos os direitos reservados</h2>
-</section>
+  <button type="submit">Enviar</button>
+</form>
 
 </html>

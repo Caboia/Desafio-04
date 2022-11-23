@@ -1,15 +1,14 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request
 from flask_mysqldb import MySQL
+app = Flask("__name__")
 
 # conexão com banco de dados
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = '1234'
+app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'contatos'
 
-mysql = MYSQL(app)
-
-app = Flask("__name__")
+mysql = MySQL(app)
 
 @app.route("/")
 def home():
@@ -21,20 +20,21 @@ def quem_somos():
 
 @app.route('/contatos', methods=['GET', 'POST'])
 def contatos():
-  if request.method == "POST":
-    email = request.form['email']
-    assunto = request.form['assunto']
-    descricao = request.form['descricao']
+    if request.method == "POST":
+      email = request.form['email']
+      assunto = request.form['assunto']
+      descricao = request.form['descricao']
 
-    cur = mysql.connection.cursos()
-    cur.execute("INSERT INTO contatos(email, assunto, descricao) VALUES (%s, %s, %s)", (email, assunto, descricao))
+      cur = mysql.connection.cursor()
+      cur.execute("INSERT INTO contatos(email, assunto, descricao) VALUES (%s, %s, %s)", (email, assunto, descricao))
 
-    mysql.connection.commit()
+      mysql.connection.commit()
 
-    cur.close()
+      cur.close()
 
-    return 'sucesso'
-  return render_template('contatos.html')
+      return 'sucesso'
+
+    return render_template('contato.html')
 
 # rota usuários para listar todos os usuários no banco de dados.
 @app.route('/users')
@@ -46,6 +46,6 @@ def users():
   if users > 0:
     userDetail = cur.fetchall()
 
-    return render_template("users.html", userDetail=userDetails)
+    return render_template("users.html", userDetail=userDetail)
     
 app.run()
